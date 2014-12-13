@@ -1,0 +1,13 @@
+{% extends 'oauth/base_oauth.html' %}
+{% block title %}
+Login
+{% endblock title %}
+{% block content %}
+{{ client['client_id'] }}
+<form action="{% url 'oauth:authenticate' %}" method="POST">
+{% csrf_token %}
+<input type="text" name="username" placeholder="Username" />
+<input type="password" name="password" placeholder="Password" />
+<input type="submit" name="submit" value="Sign in">
+</form>
+{% endblock content %}

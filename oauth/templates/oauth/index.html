@@ -1,0 +1,16 @@
+{% extends 'oauth/base_oauth.html' %}
+
+{% block title %}
+Home
+{% endblock title %}
+
+{% block content %}
+{% if user.isLoggedIn %}
+<a href="{% url 'oauth:signout' %}">Logout</a>
+{{ user.username }}
+{% else %}
+ {{ user }}
+<a href="{% url 'oauth:authorize' %}">Login</a>
+{% endif %}
+
+{% endblock content %}
