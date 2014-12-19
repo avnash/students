@@ -1,3 +1,8 @@
 from django.contrib import admin
+from oauth.models import *
 
-# Register your models here.
+admin.site.register(Client)
+admin.site.register(User)
+admin.site.register(UserCred)
+admin.site.register(ClientCred)
+admin.site.register(UserAuthLog)

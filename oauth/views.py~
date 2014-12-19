@@ -2,12 +2,9 @@ from django.shortcuts import render, get_object_or_404
 from oauth.models import *
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from django.contrib.auth import hashers
 import re
 import datetime
 import json
-import string
-import random
 
 def index(request):
 	template = 'oauth/index.html'
@@ -19,34 +16,14 @@ def index(request):
 def authorize(request):
 	user = getUserData(request)
 	client = getClientData(request.GET)
-	if(isClient(client['client_id'])):
-		if user['isLoggedIn']:
-			auth_code = request.session['auth_code']
-			client_redirect_uri = client['redirect_uri']
-			state = client['state']
-			return redirectWithAuthCode(client_redirect_uri, auth_code, state )
-		context = {'client': client}
-		template = 'oauth/authorize.html'
-		return render(request, template, context )
-	return HttpResponseRedirect(client['redirect_uri']+'?state='+client['state'])
-
-def isClient(client_id):
-	try:
-		client = Client.objects.get(client_id__exact=client_id)
-	except Client.DoesNotExist:
-		return False
-	return True
-
-def isClientAuth(client_id, client_secret):
-	try:
-		client = Client.objects.get(client_id__exact=client_id)
-	except Client.DoesNotExist:
-		return False
-	try:
-		ClientCred.objects.get(client_id__exact=client.id, client_secret=client_secret)
-	except ClientCred.DoesNotExist:
-		return False
-	return True
+	if user['isLoggedIn']:
+		auth_code = request.session['auth_code']
+		client_redirect_uri = client['redirect_uri']
+		state = client['state']
+		return redirectWithAuthCode(client_redirect_uri, auth_code, state )
+	context = {'client': client}
+	template = 'oauth/authorize.html'
+	return render(request, template, context )
 
 def redirectWithAuthCode(client_redirect_uri, auth_code, state):
 	return HttpResponseRedirect(client_redirect_uri+'?authorization_code='+auth_code + '&state' + state)
@@ -92,21 +69,11 @@ def authenticate(request):
 			request.session['isLoggedIn'] = True
 			request.session['username'] = username
 			user = getUserData(request)
-			a = True
-			while a:
-				auth_code = getAuthCode()
-				access_token = getAccessToken()
-				try:
-					UserAuthLog.objects.get(authorization_code__exact=auth_code)
-				except UserAuthLog.DoesNotExist:
-					try:
-						UserAuthLog.objects.get(access_token__exact=access_token)
-					except UserAuthLog.DoesNotExist:
-						a = False
-
-			request.session['auth_code'] = auth_code
-			request.session['access_token'] = access_token
-			auth = UserAuthLog(user_id=user['id'], authorization_code=auth_code, access_token=access_token, trash=0, expiry=datetime.datetime.now(), ip='local', timestamp=datetime.datetime.now())
+			request.session['auth_code'] = getAuthCode()
+			request.session['access_token'] = getAccessToken()
+			auth_code = request.session['auth_code']
+			access_token = getAccessToken()
+			auth = UserAuthLog(user_id=user['id'], auth_code=auth_code, access_token=access_token, trash=0, expiry=datetime.datetime.now(), ip='local', timestamp=datetime.datetime.now())
 			auth.save()
 			client_redirect_uri = client['redirect_uri']
 			state = client['state']
@@ -115,12 +82,10 @@ def authenticate(request):
 			request.session['isLoggedIn'] = False
 			return HttpResponseRedirect(getAuthUri(client))
 def getAuthCode():
-	auth_code = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(40))
-	return auth_code
+	return 'auth_code'
 
 def getAccessToken():
-	access_token = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(60))
-	return access_token
+	return 'access_token'
 
 def userLogin(username, password):
 	try:
@@ -132,7 +97,6 @@ def userLogin(username, password):
 	except UserCred.DoesNotExist:
 		return False
 	return True
-
 def signout(request):
 	request.session['isLoggedIn'] = False
 	if request.session.__contains__('username'):
@@ -161,7 +125,7 @@ def request_token(request):
 
 def request_access(request):
 	#user = getUserData(request)
-	user = {'loggedIn':True, 'username':'ae11b016'}
+	user = {'isLoggedIn':True, 'username':'ae11b016'}
 	user_json = json.dumps(user)
 	context = {'user_json':user_json}
 	template = 'oauth/request_access.html'

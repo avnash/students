@@ -7,7 +7,9 @@ Home
 {% block content %}
 {% if user.isLoggedIn %}
 <a href="{% url 'oauth:signout' %}">Logout</a>
-{{ user.username }}
+{{ user.username }}|{{ user.firstname }}|{{ user.lastname }}
+<br>{{ user }}
+{{ client }}
 {% else %}
  {{ user }}
 <a href="{% url 'oauth:authorize' %}">Login</a>
