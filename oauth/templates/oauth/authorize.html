@@ -3,15 +3,18 @@
 Login
 {% endblock title %}
 {% block content %}
-<form action="{% url 'oauth:authenticate' %}" method="POST">
+<div class="row small-10 medium-5 large-3 signin_form">
+<form action="{% url 'oauth:authenticate' %}" method="POST" data-abide>
 {% csrf_token %}
-<input type="text" name="username" placeholder="Username" />
-<input type="password" name="password" placeholder="Password" />
-<input type="submit" name="submit" value="Sign in">
+<input type="text" name="username" placeholder="Username" required autofocus/>
+<input type="password" name="password" placeholder="Password" required autofocus/>
+<small class="error">Valid username and password required</small>
+<button type="submit" name="submit" class="expand small">Sign In</button>
 <input type="hidden" name="response_type" value="{{ client.response_type }}">
 <input type="hidden" name="redirect_uri" value="{{ client.redirect_uri }}">
 <input type="hidden" name="scope" value="{{ client.scope }}">
 <input type="hidden" name="state" value="{{ client.state }}">
 <input type="hidden" name="client_id" value="{{ client.client_id }}">
 </form>
+</div>
 {% endblock content %}

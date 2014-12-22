@@ -1,0 +1,79 @@
+body {
+  font-family: 'Roboto', sans-serif;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+.signin_form {
+  margin-top:0.5em;
+  padding:3em 2em 1em 2em;
+  background:#f7f7f7;
+  -webkit-box-shadow: 0px 7px 7px -7px rgba(0,0,0,0.75);
+     -moz-box-shadow: 0px 7px 7px -7px rgba(0,0,0,0.75);
+          box-shadow: 0px 7px 7px -7px rgba(0,0,0,0.75);
+}
+
+.signin_form input {
+  display:block;
+  -moz-box-sizing: border-box;
+  height:3.5em;
+  border-radius:0;
+  padding:0 25px;
+  margin:0;
+}
+
+.signin_form button{
+  border-radius:0;
+  padding:1em;
+  margin-top:1em;
+}
+.profile_pic_large {
+  background:black;
+  height:10em;
+  width:10em;
+}
+.signin_form .columns {
+  margin:0;
+  padding:0;
+}
+
+.note {
+  background:#f7f7f7;
+  margin-top:1em;
+  padding:1em;
+  text-align:center;
+}
+
+.footer {
+  text-align:center;
+  font-size:90%;
+}
+
+.site_row {
+  padding:2em 1em;
+  background-size:cover;
+}
+
+.list_intro {
+ text-align:center;
+}
+.bg{
+  background:#C59DFF;
+}
+
+.intro {
+  position:relative;
+  background-image: url(/oauth/public/img/lines.svg);
+background-repeat: no-repeat;
+background-position: center top;
+background-position-x: center;
+background-position-y: top;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+background-size: cover;
+background-attachment:fixed;
+min-height:600px;
+}
+.feedback_portal {
+  background: url(/oauth/public/img/feedback_portal.png) no-repeat center center fixed;
+}

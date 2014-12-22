@@ -5,7 +5,7 @@ Home
 {% endblock title %}
 
 {% block content %}
-{% if user.isLoggedIn %}
+{% if user.loggedIn %}
 <a href="{% url 'oauth:signout' %}">Logout</a>
 {{ user.username }}|{{ user.firstname }}|{{ user.lastname }}
 <br>{{ user }}
