@@ -5,6 +5,6 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'students.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-    url(r'^oauth/', include('oauth.urls', namespace='oauth')),
+    url(r'', include('oauth.urls', namespace='oauth')),
     url(r'^admin/', include(admin.site.urls)),
 )
