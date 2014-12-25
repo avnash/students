@@ -2,7 +2,7 @@ from django.contrib import admin
 from oauth.models import *
 
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ('id','client_uri', 'client_id')
+    list_display = ('id','client_name','client_uri', 'client_id')
 
 class ClientCredAdmin(admin.ModelAdmin):
     list_display = ('id','client', 'client_secret')

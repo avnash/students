@@ -101,7 +101,7 @@ def loginRequestLog(request):
 	meta_http_user_agent = request.META['HTTP_USER_AGENT']
 	meta_query_string = request.META['QUERY_STRING']
 	meta_remote_addr = request.META['REMOTE_ADDR']
-	meta_remote_host = request.META['REMOTE_HOST']
+	meta_remote_host = request.META['REMOTE_HOST'] if request.META.__contains__('REMOTE_HOST') else 'error'
 	meta_request_method = request.META['REQUEST_METHOD']
 	loginRequestLog = LoginRequestLog(
 							username=username,

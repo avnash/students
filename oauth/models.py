@@ -42,6 +42,7 @@ class Client(models.Model):
 	responsetypes = models.ManyToManyField(ResponseType)
 	managers = models.ManyToManyField(User)
 	scopes = models.ManyToManyField(Scope)
+	client_name = models.CharField(max_length=40)
 
 	def __unicode__(self):
 		return self.client_uri

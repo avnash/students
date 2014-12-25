@@ -6,5 +6,5 @@ urlpatterns = patterns('',
     # url(r'^$', 'students.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
     url(r'', include('oauth.urls', namespace='oauth')),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^db/', include(admin.site.urls)),
 )
