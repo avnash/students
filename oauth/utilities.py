@@ -16,7 +16,9 @@ def isClient(client):
 		return False
 	return True
 
-def isClientAuth(client_id, client_secret):
+def isClientAuth(client_auth):
+	client_id = client_auth['client_id']
+	client_secret = client_auth['client_secret']
 	try:
 		client = Client.objects.get(client_id__exact=client_id)
 	except Client.DoesNotExist:

@@ -69,33 +69,39 @@ def authenticate(request):
 
 def request_token(request):
 	client_auth = getClientCred(request)
-	try:
-		auth = UserAuthLog.objects.get(authorization_code__exact=client_auth['authorization_code'])
-	except UserAuthLog.DoesNotExist:
-		return 0
-	if auth.trash==0:
-		access_token = {'access_token':auth.access_token}
-		access_token_json = json.dumps(access_token)
-		context = {'access_token_json':access_token_json}
-		template = 'oauth/request_token.html'
-		return render(request, template, context )
+	if(isClientAuth(client_auth)):
+		try:
+			auth = UserAuthLog.objects.get(authorization_code__exact=client_auth['authorization_code'])
+		except UserAuthLog.DoesNotExist:
+			return 0
+		if auth.trash==0:
+			access_token = {'access_token':auth.access_token}
+			access_token_json = json.dumps(access_token)
+			context = {'access_token_json':access_token_json}
+			template = 'oauth/request_token.html'
+			return render(request, template, context )
+		else:
+			return 0
 	else:
 		return 0
 
 def request_access(request):
 	client_auth = getClientCredToken(request)
-	try:
-		auth = UserAuthLog.objects.get(access_token__exact=client_auth['access_token'])
-	except UserAuthLog.DoesNotExist:
-		return 0
-	if auth.trash==0:
-		user_id = auth.user_id
-		user_temp = User.objects.get(pk=user_id)
-		user = {'loggedIn':True,'username':user_temp.username}
-		user_json = json.dumps(user)
-		context = {'user_json':user_json}
-		template = 'oauth/request_access.html'
-		return render(request, template, context )
+	if(isClientAuth(client_auth)):
+		try:
+			auth = UserAuthLog.objects.get(access_token__exact=client_auth['access_token'])
+		except UserAuthLog.DoesNotExist:
+			return 0
+		if auth.trash==0:
+			user_id = auth.user_id
+			user_temp = User.objects.get(pk=user_id)
+			user = {'loggedIn':True,'username':user_temp.username}
+			user_json = json.dumps(user)
+			context = {'user_json':user_json}
+			template = 'oauth/request_access.html'
+			return render(request, template, context )
+		else:
+			return 0
 	else:
 		return 0
 
