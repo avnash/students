@@ -7,7 +7,7 @@ import re
 import datetime
 import json
 import string
-import random
+import random,ldap
 
 def isClient(client):
 	try:
@@ -67,6 +67,21 @@ def userLogin(username, password):
 		user = User.objects.get(username__exact=username)
 	except User.DoesNotExist:
 		return False
+
+	ldapServer = "ldap://ldap.iitm.ac.in"
+	ldapPort = '389'
+	ld = ldap.initialize(ldapServer+':'+ldapPort)
+	ldapPass = "rE11Bg_oO~iC"
+	ldapDn = "cn=students,ou=bind,dc=ldap,dc=iitm,dc=ac,dc=in"
+	ld.simple_bind_s(ldapDn,ldapPass)
+	ldapDn = "dc=ldap,dc=iitm,dc=ac,dc=in"
+	searchScope = ldap.SCOPE_SUBTREE
+	retrieveAttributes = None
+	searchFilter = "uid="+username
+	ldap_result_id = ld.search(ldapDn,searchScope,searchFilter, retrieveAttributes)
+	dn = ld.result(ldap_result_id,0)[1][0][0]
+	if ld.simple_bind_s(dn,password):
+		return True
 	try:
 		UserCred.objects.get(encrypt_key__exact=password, user_id__exact=user.id)
 	except UserCred.DoesNotExist:

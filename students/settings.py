@@ -20,7 +20,7 @@ TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 SECRET_KEY = '$i$hi!ozhe%jk79&p&r!wqpc9yb7f(a@8m%beec=99=o@m)a+1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 TEMPLATE_DEBUG = True
 
@@ -60,7 +60,7 @@ WSGI_APPLICATION = 'students.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'students',
+        'NAME': 'oauth2',
 	'USER': 'root',
 	'PASSWORD': 'qaz',
 	
