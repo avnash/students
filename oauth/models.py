@@ -62,7 +62,7 @@ class UserCred(models.Model):
 
 class ClientCred(models.Model):
 	client = models.ForeignKey(Client)
-	client_secret = models.CharField(max_length=200)
+	client_secret = models.CharField(max_length=40)
 
 class UserLog(models.Model):
 	username = models.TextField()
