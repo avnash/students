@@ -7,8 +7,13 @@ Login
 <div class="row small-10 medium-5 large-3 note ">
 Sign in with your LDAP Account
 </div>
+{% if message %}
+<div class="row small-10 medium-5 large-3 note error">
+{{ message }}
+</div>
+{% endif %}
 <div class="row small-10 medium-5 large-3 signin_form">
-<form action="{% url 'oauth:authenticate' %}" method="POST" data-abide>
+<form action="{% url 'oauth:authenticate' %}" method="POST">
 {% csrf_token %}
 <input type="text" name="username" placeholder="Username" required autofocus/>
 <input type="password" name="password" placeholder="Password" required autofocus/>

@@ -44,6 +44,12 @@ body {
   text-align:center;
 }
 
+.error{
+  padding:0.5em;
+  background:red;
+  color:white;
+  font-size:0.7em;
+}
 .footer {
   text-align:center;
   font-size:90%;

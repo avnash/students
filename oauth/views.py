@@ -23,7 +23,12 @@ def authorize(request):
 			client_redirect_uri = client['redirect_uri']
 			state = client['state']
 			return redirectWithAuthCode(client_redirect_uri, auth_code, state )
-		context = {'client': client}
+		msg_num = request.GET['msg'] if request.GET.__contains__('msg') else 0
+		if(msg_num=='1'):
+			message='Valid Username and Password required'
+		else:
+			message=False
+		context = {'client': client, 'message':message}
 		template = 'oauth/authorize.html'
 		return render(request, template, context )
 	return HttpResponseRedirect(client['redirect_uri']+'?state='+client['state'])
@@ -65,7 +70,8 @@ def authenticate(request):
 			return redirectWithAuthCode(client_redirect_uri, auth_code, state )
 		else:
 			request.session['loggedIn'] = False
-			return HttpResponseRedirect(getAuthUri(client))
+			message='1'
+			return HttpResponseRedirect(getAuthUri(client, message))
 
 def request_token(request):
 	client_auth = getClientCred(request)

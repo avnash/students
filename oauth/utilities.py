@@ -53,8 +53,8 @@ def getUserData(request):
 		user['id'] = user_temp.id
 	return user
 
-def getAuthUri(client):
-	return reverse('oauth:authorize')+'?response_type='+client['response_type']+'&client_id='+client['client_id'] +'&redirect_uri='+client['redirect_uri']+'&scope='+client['scope']+'&state='+client['state']
+def getAuthUri(client,message=''):
+	return reverse('oauth:authorize')+'?response_type='+client['response_type']+'&client_id='+client['client_id'] +'&redirect_uri='+client['redirect_uri']+'&scope='+client['scope']+'&state='+client['state']+'&msg='+message
 
 def getAuthCode():
 	auth_code = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(40))
