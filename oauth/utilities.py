@@ -82,12 +82,14 @@ def userLogin(username, password):
 	searchFilter = "uid="+username
 	ldap_result_id = ld.search(ldapDn,searchScope,searchFilter, retrieveAttributes)
 	dn = ld.result(ldap_result_id,0)[1][0][0]
-	if ld.simple_bind_s(dn,password):
-		return True
 	try:
-		UserCred.objects.get(encrypt_key__exact=password, user_id__exact=user.id)
-	except UserCred.DoesNotExist:
-		return False
+		ld.simple_bind_s(dn,password)
+
+	except ldap.LDAPError, e:
+		try:
+			UserCred.objects.get(encrypt_key__exact=password, user_id__exact=user.id)
+		except UserCred.DoesNotExist:
+			return False
 	return True
 
 

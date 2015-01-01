@@ -3,6 +3,9 @@
 Login
 {% endblock title %}
 {% block content %}
+<div class="row small-10 medium-5 large-3 note ">
+Sign in with your LDAP Account
+</div>
 <div class="row small-10 medium-5 large-3 signin_form">
 <form action="{% url 'oauth:authenticate' %}" method="POST" data-abide>
 {% csrf_token %}
