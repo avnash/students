@@ -83,9 +83,7 @@ def request_token(request):
 		if auth.trash==0:
 			access_token = {'access_token':auth.access_token}
 			access_token_json = json.dumps(access_token)
-			context = {'access_token_json':access_token_json}
-			template = 'oauth/request_token.html'
-			return render(request, template, context )
+			return HttpResponse(access_token_json, content_type='application/json')
 		else:
 			return 0
 	else:
@@ -103,9 +101,7 @@ def request_access(request):
 			user_temp = User.objects.get(pk=user_id)
 			user = {'loggedIn':True,'username':user_temp.username}
 			user_json = json.dumps(user)
-			context = {'user_json':user_json}
-			template = 'oauth/request_access.html'
-			return render(request, template, context )
+			return HttpResponse(user_json, content_type='application/json')
 		else:
 			return 0
 	else:
