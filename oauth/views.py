@@ -10,8 +10,7 @@ from utilities import *
 def index(request):
 	template = 'oauth/index.html'
 	user = getUserData(request)
-	context = {'user': user,
-		  }
+	context = {'user': user}
 	return render(request, template, context )
 
 def authorize(request):
